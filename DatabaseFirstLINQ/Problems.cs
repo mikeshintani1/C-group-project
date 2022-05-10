@@ -15,13 +15,13 @@ namespace DatabaseFirstLINQ
         }
         public void Runlinqqueries()
         {
-            //Problemone();
+            Problemone();
             //problemtwo();
             //problemthree();
             //problemfour();
             //problemfive();
             //problemsix();
-            problemseven();
+            //problemseven();
             //problemeight();
             //problemnine();
             //problemten();
@@ -42,8 +42,8 @@ namespace DatabaseFirstLINQ
         {
             //write a linq query that returns the number of users in the users table.
             //hint: .tolist().count
-            var shoppingCart = _context.ShoppingCarts;
-            int count = shoppingCart.Include(u => u.User).Include(p => p.Product).ToList().Count;
+            DbSet<ShoppingCart>shoppingCart = _context.ShoppingCarts;
+            var count = shoppingCart.Include(u => u.User).Include(p => p.Product).ToList().Count;
             {
                 Console.WriteLine(count);
             }
@@ -134,14 +134,14 @@ namespace DatabaseFirstLINQ
 
         private void problemeleven()
         {
-           // create a new user object and add that user to the users table using linq.
-           //user newuser = new user()
-           {
-               email = "david@gmail.com",
-               password = "davidspass123"
+            // create a new user object and add that user to the users table using linq.
+            User newuser = new User()
+            {
+               Email = "david@gmail.com",
+               Password = "davidspass123"
            };
-            _context.Users.add(newuser);
-            _context.savechanges();
+            _context.Users.Add(newuser);
+            _context.SaveChanges();
         }
 
         private void problemtwelve()
@@ -153,15 +153,15 @@ namespace DatabaseFirstLINQ
         private void problemthirteen()
         {
             //add the role of "customer" to the user we just created in the userroles junction table using linq.
-           var roleid = _context.roles.where(r => r.rolename == "customer").select(r => r.id).singleordefault();
-            var userid = _context.users.where(u => u.email == "david@gmail.com").select(u => u.id).singleordefault();
-            userrole newuserrole = new userrole()
+           var roleid = _context.Roles.Where(r => r.RoleName == "customer").Select(r => r.Id).SingleOrDefault();
+            var userid = _context.Users.Where(u => u.Email == "david@gmail.com").Select(u => u.Id).SingleOrDefault();
+            UserRole newuserrole = new UserRole()
             {
-                userid = userid,
-                roleid = roleid
+                UserId = userid,
+                RoleId = roleid
             };
-            _context.userroles.add(newuserrole);
-            _context.savechanges();
+            _context.UserRoles.Add(newuserrole);
+            _context.SaveChanges();
         }
 
         private void problemfourteen()
@@ -170,15 +170,15 @@ namespace DatabaseFirstLINQ
 
         }
 
-         <><> u actions(update) <><>
+         //<><> u actions(update) <><>
 
         private void problemfifteen()
         {
             //update the email of the user we created to "mike@gmail.com"
-            var user = _context.users.where(u => u.email == "david@gmail.com").singleordefault();
-            user.email = "mike@gmail.com";
-            _context.users.update(user);
-            _context.savechanges();
+            var user = _context.Users.Where(u => u.Email == "david@gmail.com").SingleOrDefault();
+            user.Email = "mike@gmail.com";
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
 
         private void problemsixteen()
@@ -192,18 +192,19 @@ namespace DatabaseFirstLINQ
             //change the role of the user we created to "employee"
             // hint: you need to delete the existing role relationship and then create a new userrole object and add it to the userroles table
             // see problem eighteen as an example of removing a role relationship
-            var userrole = _context.userroles.where(ur => ur.user.email == "mike@gmail.com").singleordefault();
-            _context.userroles.remove(userrole);
-            userrole newuserrole = new userrole()
+
+            var userrole = _context.UserRoles.Where(ur => ur.User.Email == "mike@gmail.com").SingleOrDefault();
+            _context.UserRoles.Remove(userrole);
+            UserRole newuserrole = new UserRole()
             {
-                userid = _context.users.where(u => u.email == "mike@gmail.com").select(u => u.id).singleordefault(),
-                roleid = _context.roles.where(r => r.rolename == "employee").select(r => r.id).singleordefault()
+                UserId = _context.Users.Where(u => u.Email == "mike@gmail.com").Select(u => u.Id).SingleOrDefault(),
+                RoleId = _context.Roles.Where(r => r.RoleName == "employee").Select(r => r.Id).SingleOrDefault()
             };
-            _context.userroles.add(newuserrole);
-            _context.savechanges();
+            _context.UserRoles.Add(newuserrole);
+            _context.SaveChanges();
         }
 
-         <><> d actions(delete) <><>
+         //<><> d actions(delete) <><>
 
         private void problemeighteen()
         {
@@ -215,12 +216,12 @@ namespace DatabaseFirstLINQ
         {
             //delete all of the product relationships to the user with the email "oda@gmail.com" in the shoppingcart table using linq.
             //hint: loop
-           var shoppingcartproducts = _context.shoppingcarts.where(sc => sc.user.email == "oda@gmail.com");
-            foreach (shoppingcart userproductrelationship in shoppingcartproducts)
+           var shoppingcartproducts = _context.ShoppingCarts.Where(sc => sc.User.Email == "oda@gmail.com");
+            foreach (ShoppingCart userproductrelationship in shoppingcartproducts)
             {
-                _context.shoppingcarts.remove(userproductrelationship);
+                _context.ShoppingCarts.Remove(userproductrelationship);
             }
-            _context.savechanges();
+            _context.SaveChanges();
         }
 
         private void problemtwenty()
@@ -229,7 +230,7 @@ namespace DatabaseFirstLINQ
 
         }
 
-         <><><><><><><><> bonus problems<><><><><><><><><>
+         //<><><><><><><><> bonus problems<><><><><><><><><>
 
         private void bonusone()
         {
@@ -244,7 +245,7 @@ namespace DatabaseFirstLINQ
             //display the total of each users shopping cart as well as the total of the toals to the console.
         }
 
-        big one
+        
         private void bonusthree()
         {
             //1.create functionality for a user to sign in via the console
