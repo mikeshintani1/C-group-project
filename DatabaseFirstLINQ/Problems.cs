@@ -15,7 +15,7 @@ namespace DatabaseFirstLINQ
         }
         public void Runlinqqueries()
         {
-            Problemone();
+            problemone();
             //problemtwo();
             //problemthree();
             //problemfour();
@@ -38,18 +38,14 @@ namespace DatabaseFirstLINQ
         }
 
         //<><><><><><><><> r actions(read) <><><><><><><><><>
-        private void Problemone()
+        private void problemone()
         {
             //write a linq query that returns the number of users in the users table.
             //hint: .tolist().count
-            DbSet<ShoppingCart>shoppingCart = _context.ShoppingCarts;
-            var count = shoppingCart.Include(u => u.User).Include(p => p.Product).ToList().Count;
-            {
-                Console.WriteLine(count);
-            }
-            
-            
-  
+            var users = _context.Users;
+            int userCount = users.Count();
+            Console.WriteLine(userCount);
+        
 
         }
 
