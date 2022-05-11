@@ -32,9 +32,10 @@ namespace DatabaseFirstLINQ
             //problemfifteen();
             //problemsixteen();
             //problemseventeen();
-            problemeighteen();
+            //problemeighteen();
             //problemnineteen();
             //problemtwenty();
+            bonusone();
         }
 
         //<><><><><><><><> r actions(read) <><><><><><><><><>
@@ -299,6 +300,9 @@ namespace DatabaseFirstLINQ
         private void problemtwenty()
         {
             //delete the user with the email "oda@gmail.com" from the users table using linq.
+            var user = _context.Users.Where(u => u.Email == "oda@gmail.com").SingleOrDefault();
+            _context.Users.Remove(user);
+            _context.SaveChanges();
 
         }
 
@@ -309,6 +313,20 @@ namespace DatabaseFirstLINQ
             //prompt the user to enter in an email and password through the console.
             // take the email and password and check if the there is a person that matches that combination.
             // print "signed in!" to the console if they exists and the values match otherwise print "invalid email or password.".
+            Console.WriteLine("Enter your email: ");
+            var email = Console.ReadLine();
+            Console.WriteLine("Enter your password: ");
+            var password = Console.ReadLine();
+            var user = _context.Users.Where(p => p.Email == email).Where(p => p.Password == password).SingleOrDefault();
+            if (user == null)
+            {
+                Console.WriteLine("Invalid email or password");
+            }
+            else
+            {
+                Console.WriteLine("Signed in");
+            }
+
         }
 
         private void bonustwo()
